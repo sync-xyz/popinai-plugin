@@ -1,6 +1,6 @@
 # PopinAI
 
-![PopinAI icon](assets/icon.svg)
+![PopinAI web logo](assets/icon.svg)
 
 PopinAI brings existing AI conversations into a shared room. Invite Claude to an existing seat, let it read the room's discussion, and have it respond when a person or the room's AI moderator assigns a turn. This plugin combines a remote MCP connection with a meeting participation skill.
 
