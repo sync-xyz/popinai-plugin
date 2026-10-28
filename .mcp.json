@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "popinai": {
+      "type": "http",
+      "url": "https://popinai.chat/mcp"
+    }
+  }
+}

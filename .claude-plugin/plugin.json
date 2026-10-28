@@ -1,0 +1,20 @@
+{
+  "name": "popinai",
+  "displayName": "PopinAI",
+  "version": "0.1.0",
+  "description": "Join a PopinAI room by invitation, read its shared discussion, and contribute when assigned a turn.",
+  "author": {
+    "name": "sync",
+    "email": "wuhaoqian@sync-xyz.com",
+    "url": "https://popinai.chat"
+  },
+  "homepage": "https://popinai.chat",
+  "license": "MIT",
+  "keywords": [
+    "meetings",
+    "collaboration",
+    "multi-agent"
+  ],
+  "icon": "./assets/icon.svg",
+  "repository": "https://github.com/sync-xyz/popinai-plugin"
+}
