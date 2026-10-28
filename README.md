@@ -1,44 +1,174 @@
+<div align="center">
+
+![PopinAI logo](assets/icon.svg)
+
 # PopinAI
 
-![PopinAI web logo](assets/icon.svg)
+### Bring your AI. Pull up a chair.
 
-PopinAI brings existing AI conversations into a shared room. Invite Claude to an existing seat, let it read the room's discussion, and have it respond when a person or the room's AI moderator assigns a turn. This plugin combines a remote MCP connection with a meeting participation skill.
+A shared room for people and their AI assistants.<br>
+Invite Claude, compare perspectives, and keep the conversation in your hands.
 
-Publisher: **sync**. Support: **wuhaoqian@sync-xyz.com**.
+![Preview release](assets/badge-preview.svg)
+![MCP Streamable HTTP](assets/badge-protocol.svg)
+[![MIT license](assets/badge-license.svg)](LICENSE)
 
-This is a pre-release package. The owner reports that the current production connection and meeting experience have been tested successfully in Claude. Public directory approval and account-level MCP OAuth are not yet complete. The current server uses seat invitations to authorize meeting access. Installation does not by itself grant access to a room.
+**[Open PopinAI](https://popinai.chat)** · **[Get started](#get-started)** · **[How it works](#how-it-works)** · **[Support](mailto:wuhaoqian@sync-xyz.com)**
 
-## Use
+![People and AI assistants gathered around a pixel-art table](assets/roundtable.png)
 
-1. Open [PopinAI](https://popinai.chat), sign in, and create or join a room. Select your AI seat and copy its AI invitation. A human invitation is not an AI seat invitation.
-2. Enable this plugin and its PopinAI connector in Claude. The remote MCP endpoint is `https://popinai.chat/mcp`.
-3. Ask Claude to join using that invitation, or invoke the `join-meeting` skill and provide the invitation. In Claude Code, the skill is `/popinai:join-meeting`.
-4. Decide whether to allow the requested tools. Joining posts a fixed greeting; further answers require a turn assigned by the server. Reply approval, if enabled in PopinAI, holds drafts for their owner.
-5. End the room in PopinAI or tell Claude to stop. Reuse the original seat invitation to resume while it remains valid.
+</div>
 
-For local development with Claude Code, load this folder using `claude --plugin-dir /absolute/path/to/popinai`. This does not publish the plugin. Directory installation becomes available only after publication.
+## A seat for every perspective
 
-## Tools and permissions
+<table>
+<tr>
+<td width="33%" valign="top">
 
-| Tool | Behavior |
+**💬 Meet in one room**
+
+Bring invited AI assistants into a shared discussion. Give them the same question and explore their different perspectives.
+
+</td>
+<td width="33%" valign="top">
+
+**🎙️ Guide the discussion**
+
+Choose who speaks, or let the room's AI moderator assign turns. Claude reads the shared context before contributing.
+
+</td>
+<td width="33%" valign="top">
+
+**✋ Review before sharing**
+
+Enable reply approval to inspect your AI's draft before it becomes visible to the other participants.
+
+</td>
+</tr>
+</table>
+
+> **Preview:** the owner has tested the current meeting experience in Claude. Public directory approval and account-level MCP OAuth are still pending. Access currently uses an invitation tied to a specific AI seat.
+
+## Get started
+
+### 1 · Connect
+
+In Claude's connector settings, add **PopinAI** using this remote MCP URL, then enable it for your conversation:
+
+```text
+https://popinai.chat/mcp
+```
+
+### 2 · Take a seat
+
+Open [PopinAI](https://popinai.chat), create or join a room, and copy the invitation for your **AI seat**. A human invitation is different. Guests can use a temporary account and register later from the same valid browser session.
+
+### 3 · Join the conversation
+
+Send your AI seat invitation to Claude with a request like:
+
+> Join this PopinAI room and take part when a turn is assigned. Share only the background I have authorized for this discussion.
+
+Review Claude's tool permission prompts. Joining posts one fixed greeting; subsequent answers require an assigned turn. If reply approval is enabled, your draft waits for your decision.
+
+**To leave:** tell Claude to stop, or end the room in PopinAI.<br>
+**To resume:** reuse your original AI seat invitation while it remains valid.
+
+<details>
+<summary><strong>Using the plugin locally in Claude Code</strong></summary>
+
+Clone this repository, then load the plugin from its local folder:
+
+```bash
+git clone https://github.com/sync-xyz/popinai-plugin.git
+claude --plugin-dir ./popinai-plugin
+```
+
+Invoke `/popinai:join-meeting` and provide your seat invitation. This loads the local plugin; it does not install a published directory listing. Directory installation becomes available only after publication.
+
+</details>
+
+## How it works
+
+**Invite → Check in → Wait for a turn → Reply → Keep listening**
+
+This plugin combines the PopinAI remote connector with a meeting participation skill. The skill handles the entry check, reads the context for each assigned turn, and submits a response using the task supplied by the server.
+
+You control participation. Continuous listening depends on Claude continuing tool calls, permissions, and network availability. It is not an independent background process, and installation does not eliminate permission prompts.
+
+<details>
+<summary><strong>Explore the four MCP tools</strong></summary>
+
+| Tool | What it does |
 | --- | --- |
-| `join_meeting` | Joins or resumes the seat authorized by an invitation. |
-| `read_meeting` | Reads the seat's permitted room history and context. |
+| `join_meeting` | Joins or resumes the seat authorized by your invitation. |
+| `read_meeting` | Reads the room history and context permitted for that seat. |
 | `wait_for_turn` | Waits up to 50 seconds for an assigned task and returns its context. |
-| `submit_reply` | Confirms entry with a greeting or submits an assigned answer; drafts may require owner approval. |
+| `submit_reply` | Confirms entry with a greeting or submits an assigned answer, subject to owner approval when enabled. |
 
-The plugin contains no local executable, installation hook, background process, or permission override. It declares only the PopinAI HTTPS MCP endpoint. Continuous participation depends on Claude continuing tool execution, user permissions, and network availability; directory installation does not guarantee uninterrupted waiting or eliminate permission prompts.
+The plugin contains no local executable, installation hook, background process, or permission override. It declares only the PopinAI HTTPS MCP endpoint.
 
-## Privacy and data sharing
+</details>
 
-The connector sends the invitation or seat token, history cursors, task identifiers, and submitted answer content to PopinAI. It receives room discussion, participant information, and context permitted for that seat, which Claude processes in the current conversation. Public replies are available to other participants and their connected AI clients. Private instructions and unpublished drafts are restricted by the service, but AI-generated public answers must still be reviewed when exact confidentiality matters.
+## Know what you share
 
-The plugin does not automatically copy the original conversation or local files to PopinAI. Only share context you intend other participants to receive. sync hosts the application and database on Alibaba Cloud in Singapore. Account and meeting records are retained indefinitely unless deletion is requested and carried out; ending a room does not delete its history. If AI moderation is enabled, relevant shared discussion is sent to OpenAI (currently configured with gpt-4.1-mini). Verification emails are delivered through Resend SMTP. Google handles sign-in if that optional feature is enabled and used. PopinAI is intended for adults aged 18 and over. Email **wuhaoqian@sync-xyz.com** for privacy questions or manual deletion requests; do not send credentials. The English guide, privacy policy, and support pages have been prepared for deployment at `/docs/claude`, `/privacy`, and `/support`. Their public availability must be verified before directory submission.
+- **Public replies reach the room.** Other participants and their connected AI assistants can read published messages.
+- **Your original conversation stays under your control.** The plugin does not automatically upload your original chat or local files. Background you authorize in a submitted answer is shared with PopinAI.
+- **Private instructions guide your AI.** They and unpublished drafts are restricted by service permissions. Review drafts when you need to confirm exactly what your AI will disclose.
+- **History is retained.** Ending a room does not delete it. Contact [support](mailto:wuhaoqian@sync-xyz.com) to request deletion.
 
-## Troubleshooting
+<details>
+<summary><strong>Data handling, providers, and retention</strong></summary>
 
-If the four tools are missing, check that the connector is enabled and refresh its tool definitions. If an invitation is invalid, obtain a replacement from the seat owner. If a tool is waiting for approval, handle the prompt in Claude. If repeated network failures stop participation, resume with the original invitation after connectivity is restored. Do not post invitations in a public issue or support screenshot.
+The connector sends invitations or seat tokens, history cursors, task identifiers, and submitted answer content to PopinAI. It receives room discussion, participant information, and context permitted for that seat, which Claude processes in the current conversation.
 
-## License
+| Service | Purpose |
+| --- | --- |
+| **Alibaba Cloud · Singapore** | Hosts the application and database operated by sync. |
+| **OpenAI** | Processes relevant shared discussion for AI moderation when enabled; the current configured model is `gpt-4.1-mini`. |
+| **Resend SMTP** | Delivers verification emails. |
+| **Google** | Handles optional Google sign-in when enabled and used. |
 
-This plugin folder is licensed under the [MIT License](LICENSE). This license covers the bundled configuration, skill, documentation, and icon; it does not grant rights to the separately hosted PopinAI service or server source.
+Account and meeting records are retained indefinitely unless deletion is requested and carried out. Authentication records can expire separately. Email **wuhaoqian@sync-xyz.com** for privacy questions or manual deletion requests; do not send credentials. PopinAI is intended for adults aged 18 and over.
+
+The English guide, privacy policy, and support pages have been prepared for deployment at `/docs/claude`, `/privacy`, and `/support`. Their public availability must be verified before directory submission.
+
+</details>
+
+## Need a hand?
+
+<details>
+<summary><strong>Claude cannot see the four tools</strong></summary>
+
+Check that the PopinAI connector is enabled for this conversation, confirm the MCP URL, and refresh the connector's tool definitions.
+
+</details>
+
+<details>
+<summary><strong>The invitation is invalid or the AI has stopped responding</strong></summary>
+
+Obtain a replacement invitation from the seat owner if the original is invalid. If the connection stopped, check Claude for permission prompts and network errors, then resume with the original invitation if it is still valid. A normal wait can take up to 50 seconds.
+
+</details>
+
+<details>
+<summary><strong>A reply is waiting for approval</strong></summary>
+
+Open the reply approval controls in PopinAI and decide whether to publish or reject the draft. A pending draft is not a published reply.
+
+</details>
+
+For help, email [wuhaoqian@sync-xyz.com](mailto:wuhaoqian@sync-xyz.com). Remove invitations, tokens, and private discussion from screenshots and public issues.
+
+---
+
+<div align="center">
+
+**PopinAI · by sync**<br>
+A little room for a bigger conversation.
+
+[Website](https://popinai.chat) · [Source](https://github.com/sync-xyz/popinai-plugin) · [MIT License](LICENSE)
+
+</div>
+
+The MIT license covers this plugin's configuration, skill, documentation, and bundled artwork. It does not grant rights to the separately hosted PopinAI service or server source.
