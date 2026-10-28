@@ -16,5 +16,8 @@
     "multi-agent"
   ],
   "icon": "./assets/icon.svg",
-  "repository": "https://github.com/sync-xyz/popinai-plugin"
+  "repository": "https://github.com/sync-xyz/popinai-plugin",
+  "documentationUrl": "https://popinai.chat/docs/claude",
+  "privacyPolicyUrl": "https://popinai.chat/privacy",
+  "supportUrl": "https://popinai.chat/support"
 }

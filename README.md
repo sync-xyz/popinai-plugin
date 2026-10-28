@@ -129,7 +129,7 @@ The connector sends invitations or seat tokens, history cursors, task identifier
 
 Account and meeting records are retained indefinitely unless deletion is requested and carried out. Authentication records can expire separately. Email **wuhaoqian@sync-xyz.com** for privacy questions or manual deletion requests; do not send credentials. PopinAI is intended for adults aged 18 and over.
 
-The English guide, privacy policy, and support pages have been prepared for deployment at `/docs/claude`, `/privacy`, and `/support`. Their public availability must be verified before directory submission.
+Read the [Claude guide](https://popinai.chat/docs/claude), [Privacy Policy](https://popinai.chat/privacy), or [Support page](https://popinai.chat/support).
 
 </details>
 
