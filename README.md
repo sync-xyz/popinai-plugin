@@ -1,7 +1,5 @@
 <div align="center">
 
-![PopinAI logo](assets/icon.svg)
-
 # PopinAI
 
 ### Bring your AI. Pull up a chair.
